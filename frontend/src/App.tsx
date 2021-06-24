@@ -1,10 +1,12 @@
 import { Button } from "@chakra-ui/button";
 import { Flex, Text } from "@chakra-ui/layout";
-import { Container } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { FunctionComponent, useRef, useState } from "react";
 import "./App.css";
 import axios from "./axios";
 import ZoomCall from "./zoomCall";
+
+require("dotenv").config();
 
 const App: FunctionComponent = () => {
     const [dataLoaded, setDataLoaded] = useState(false);
@@ -23,17 +25,17 @@ const App: FunctionComponent = () => {
     const showMeetingData = (data: any) => {
         console.log("App data:", data);
         setDataLoaded(true);
-        setMeetingId(data.ZoomMeetingResponse.id);
-        setMeetingPassword(data.ZoomMeetingResponse.password);
+        setMeetingId(data.meeting_response.id);
+        setMeetingPassword(data.meeting_response.password);
         // setStartUrl(data.meeting_response.start_url);
-        setStatus(data.ZoomMeetingResponse.status);
+        setStatus(data.meeting_response.status);
     };
 
     const onCreateMeetingClick = async () => {
         console.log("Create Meeting Button Clicked");
 
         await axios
-            .get("/zoomcallToken")
+            .get("/zoom_meeting")
             .then((data) => {
                 console.log(data.data);
                 showMeetingData(data.data);
@@ -77,9 +79,9 @@ const App: FunctionComponent = () => {
                     <Text>Nothing to show here</Text>
                 )}
             </Flex>
-            <Container as="header" className="App-header">
+            <Box className="App-header" maxWidth="2xl" mt="10">
                 <ZoomCall ref={zoomCall} />
-            </Container>
+            </Box>
         </div>
     );
 };
