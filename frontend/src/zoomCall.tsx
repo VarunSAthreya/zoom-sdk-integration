@@ -1,15 +1,24 @@
 import { ZoomMtg } from "@zoomus/websdk";
-import { forwardRef, useEffect, useImperativeHandle } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import axios from "./axios";
 
 const ZoomCall = forwardRef((props, ref) => {
+    const [zoomMtg, setZoomMtg] = useState<typeof ZoomMtg>();
+
+    const importZoomSdk = async () => {
+        let { ZoomMtg } = await import("@zoomus/websdk");
+        setZoomMtg(ZoomMtg);
+    };
+
     useEffect(() => {
-        if (ZoomMtg) {
-            ZoomMtg.setZoomJSLib("https://source.zoom.us/1.9.5/lib", "/av");
-            ZoomMtg.preLoadWasm();
-            ZoomMtg.prepareJssdk();
+        importZoomSdk();
+        if (zoomMtg) {
+            zoomMtg.setZoomJSLib("https://source.zoom.us/1.9.6/lib", "/av");
+            // zoomMtg.setZoomJSLib("node_modules/@zoomus/websdk/dist/lib", "/av");
+            zoomMtg.preLoadWasm();
+            zoomMtg.prepareJssdk();
         }
-    }, [ZoomMtg]);
+    }, [zoomMtg, importZoomSdk]);
 
     useImperativeHandle(ref, () => ({
         startZoomCall(meeting_number_temp: string, password: string) {
@@ -19,27 +28,26 @@ const ZoomCall = forwardRef((props, ref) => {
             };
             console.log("Starting/Joining zoom call: ", meeting_number_temp);
             axios
-                .post("/zoom/signature", JSON.stringify(body), {
+                .post("/zoom_signature", JSON.stringify(body), {
                     headers: { "Content-Type": "application/json" },
                 })
                 .then(({ data }) => {
-                    console.log(data);
-                    ZoomMtg.init({
+                    console.log(data.signature);
+                    zoomMtg?.init({
                         disableRecord: false,
                         videoDrag: true,
                         sharingMode: "both",
-                        leaveUrl: "https://tremendo.in/",
+                        leaveUrl: "http://localhost:3000/",
                         success: () => {
                             console.log("Success");
-                            ZoomMtg.join({
-                                meetingNumber: meeting_number_temp,
-                                userName: "Test NextJS",
+                            zoomMtg.join({
+                                meetingNumber: meeting_number_temp.toString(),
+                                userName: "Zoom Meeting",
                                 signature: data.signature,
-                                apiKey: process.env.NEXT_PUBLIC_ZOOM_API,
+                                apiKey: process.env.REACT_APP_ZOOM_API!,
                                 passWord: password,
-                                userEmail: "shubham.singh@tremendo.in",
+                                userEmail: process.env.REACT_APP_ZOOM_EMAIL,
                                 success: (res: Error) => {
-                                    // $('#nav-tool').hide();
                                     console.log("join meeting success:", res);
                                 },
                                 error: (res: Error) => {
