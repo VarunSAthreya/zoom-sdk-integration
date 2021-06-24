@@ -14,7 +14,6 @@ const ZoomCall = forwardRef((props, ref) => {
         importZoomSdk();
         if (zoomMtg) {
             zoomMtg.setZoomJSLib("https://source.zoom.us/1.9.6/lib", "/av");
-            // zoomMtg.setZoomJSLib("node_modules/@zoomus/websdk/dist/lib", "/av");
             zoomMtg.preLoadWasm();
             zoomMtg.prepareJssdk();
         }
