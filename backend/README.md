@@ -1,6 +1,6 @@
 # Zoom Web SDK NodeJS Sample
 
-`NodeJS` / `ExpressJS` which generates **Meeting Number** and **Meeting Signature** to be used to create meeting.
+**`NodeJS`** / **`ExpressJS`** which generates **Meeting Number** and **Meeting Signature** to be used to create meeting.
 
 Documentation can be found [here.](https://marketplace.zoom.us/docs/sdk/native-sdks/web/build/signature)
 
@@ -15,13 +15,13 @@ Documentation can be found [here.](https://marketplace.zoom.us/docs/sdk/native-s
 -   **Create `.env` file**
 
     ```
-    ZOOM_USER_ID = "Insert developer Email"
+    ZOOM_USER_ID = <Insert developer Email>
 
-    ZOOM_API = "Insert API key"
+    ZOOM_API = <Insert API key>
 
-    ZOOM_API_SECRET = "Insert API Secret"
+    ZOOM_API_SECRET = <Insert API Secret>
 
-    USER_TOKEN = "Insert JWT Token"
+    USER_TOKEN = <Insert JWT Token>
     ```
 
 -   **Scripts**
