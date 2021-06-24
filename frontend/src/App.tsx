@@ -2,7 +2,6 @@ import { Button } from "@chakra-ui/button";
 import { Flex, Text } from "@chakra-ui/layout";
 import { Box } from "@chakra-ui/react";
 import { FunctionComponent, useRef, useState } from "react";
-import "./App.css";
 import axios from "./axios";
 import ZoomCall from "./zoomCall";
 
