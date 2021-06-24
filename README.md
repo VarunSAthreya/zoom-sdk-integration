@@ -36,6 +36,10 @@ Web SDK documentation can be found [here.](https://marketplace.zoom.us/docs/sdk/
 
 ```bash
 ├── src
+│   ├── routes
+│   │   └── zoom.ts
+│   ├── controllers
+│   │   └── zoom.ts
 │   └── app.ts
 ├── .gitignore
 ├── package-lock.json
